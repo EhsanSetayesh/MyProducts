@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
@@ -8,18 +8,15 @@ plugins {
 android {
     compileSdk defaultCompileSdkVersion
     namespace 'co.ehsansetayesh.myproducts'
-
+    
     defaultConfig {
-        applicationId "co.ehsansetayesh.myproducts"
         minSdk defaultMinSdkVersion
         targetSdk defaultTargetSdkVersion
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -34,7 +31,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = jvmTarget
-        //useIR = true
+        useIR = true
     }
     buildFeatures {
         compose true
@@ -42,30 +39,20 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion versions.compose
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
 }
 
 dependencies {
-    implementation(project(path: ":presentation-products"))
     implementation(project(path: ":domain"))
-    implementation(project(path: ":data-remote"))
-    implementation(project(path: ":data-local"))
-    implementation(project(path: ":data-repository"))
-    implementation androidx.core
-    implementation androidx.appCompat
-    implementation material.material
+    implementation coroutines.coroutinesAndroid
     implementation androidx.composeUi
     implementation androidx.composeMaterial
-    implementation androidx.composeUiToolingPreview
+    implementation androidx.viewModelKtx
+    implementation androidx.viewModelCompose
     implementation androidx.lifecycleRuntimeKtx
-    implementation androidx.composeActivity
     implementation androidx.navigationCompose
-    implementation androidx.hiltNavigationCompose
     implementation di.hiltAndroid
     kapt di.hiltCompiler
     testImplementation test.junit
+    testImplementation test.coroutines
+    testImplementation test.mockito
 }
