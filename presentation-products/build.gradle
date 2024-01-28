@@ -7,7 +7,7 @@ plugins {
 
 android {
     compileSdk defaultCompileSdkVersion
-    namespace 'co.ehsansetayesh.myproducts'
+    namespace 'co.ehsansetayesh.presentation_products'
     
     defaultConfig {
         minSdk defaultMinSdkVersion
