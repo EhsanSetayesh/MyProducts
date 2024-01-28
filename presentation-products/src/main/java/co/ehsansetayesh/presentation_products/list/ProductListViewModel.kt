@@ -4,17 +4,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.ehsansetayesh.domain.usecase.GetProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class ProductListViewModel @Inject constructor(
     private val useCase: GetProductsUseCase,
-    private val converter: ProductListConverter
+    private val converter: ProductListConverter,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
 
     private val _searchText = MutableStateFlow("")
@@ -55,7 +65,7 @@ class ProductListViewModel @Inject constructor(
     }
 
     fun loadProducts() {
-        viewModelScope.launch {
+        viewModelScope.launch (dispatcher){
             useCase.execute(GetProductsUseCase.Request)
                 .map {
                     converter.convert(it)

@@ -22,6 +22,6 @@ class GetProductsUseCase @Inject constructor(
     object Request : UseCase.Request
 
     data class Response(
-        val posts: List<Product>
+        val products: List<Product>
     ) : UseCase.Response
 }

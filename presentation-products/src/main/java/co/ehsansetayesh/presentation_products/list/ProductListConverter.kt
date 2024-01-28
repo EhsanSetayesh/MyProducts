@@ -16,7 +16,7 @@ class ProductListConverter @Inject constructor(@ApplicationContext private val c
 
             is Result.Success -> {
                 UiState.Success(
-                    productListResult.data.posts.map {
+                    productListResult.data.products.map {
                         ProductUiModel(
                             it.id,
                             it.title,
