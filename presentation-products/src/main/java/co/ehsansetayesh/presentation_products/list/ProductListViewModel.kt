@@ -37,7 +37,6 @@ class ProductListViewModel @Inject constructor(
             if (query.isBlank()) {
                 products
             } else {
-                delay(2000L)
                 products.filter {
                     it.title.contains(query, ignoreCase = true) ||
                             it.category.contains(query, ignoreCase = true)
